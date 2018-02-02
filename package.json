@@ -1,0 +1,26 @@
+{
+  "name": "@jia/npmfcc",
+  "version": "1.0.1",
+  "description": "none",
+  "main": "index.js",
+  "scripts": {
+    "test": "node test.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Jiaaa1014/npmfcc.git"
+  },
+  "keywords": [
+    "fcc",
+    "challenge"
+  ],
+  "author": "Jiaaa1014",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Jiaaa1014/npmfcc/issues"
+  },
+  "homepage": "https://github.com/Jiaaa1014/npmfcc#readme",
+  "dependencies": {
+    "@linclark/pkg": "^1.0.2"
+  }
+}
