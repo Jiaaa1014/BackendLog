@@ -1,30 +1,30 @@
-// Step 2
+// 2 BABY STEPS
 /*
-var sum = (arr) => arr.slice(2).reduce((x, y) => Number(x) + Number(y))
+const sum = (arr) => arr.slice(2).reduce((x, y) => Number(x) + Number(y))
 console.log(sum(process.argv))
 */
 
-// Step 3
+// 3 MY FIRST I/O
 /*
-var fs = require('fs')
-var filePath = process.argv[2]
-var buf = fs.readFileSync(filePath)
-var arr = buf.toString().split('\n')
+const fs = require('fs')
+const filePath = process.argv[2]
+const buf = fs.readFileSync(filePath)
+const arr = buf.toString().split('\n')
 console.log(arr.length - 1)
 */
 /*
 // official solution
-var fs = require('fs')
-var contents = fs.readFileSync(process.argv[2])
-var lines = contents.toString().split('\n').length - 1
+const fs = require('fs')
+const contents = fs.readFileSync(process.argv[2])
+const lines = contents.toString().split('\n').length - 1
 console.log(lines)
 // or
 fs.readFileSync(process.argv[2], 'utf8').split('\n').length - 1
 */
 
-// Step4
+// 4 MY FIRST ASYNC I/O
 /*
-var fs = require('fs')
+const fs = require('fs')
 fs.readFile(process.argv[2], function callback(err, data) {
   if (err) return err
   console.log(data.toString().split('\n').length - 1)
@@ -33,21 +33,21 @@ fs.readFile(process.argv[2], function callback(err, data) {
 */
 /*
 // official solution
-var fs = require('fs')
-var file = process.argv[2]
+const fs = require('fs')
+const file = process.argv[2]
 
 fs.readFile(file, function (err, contents) {
   if (err) {
     return console.log(err)
   }
   // fs.readFile(file, 'utf8', callback) can also be used
-  var lines = contents.toString().split('\n').length - 1
+  const lines = contents.toString().split('\n').length - 1
   console.log(lines)
 })
 */
 
 
-// Step 5
+// 5 FILTERD LS
 /*
 const fs = require('fs')
 const path = require('path')
@@ -59,11 +59,11 @@ fs.readdir(process.argv[2], (err, list) => {
 */
 /*
 // official solution
-var fs = require('fs')
-var path = require('path')
+const fs = require('fs')
+const path = require('path')
 
-var folder = process.argv[2]
-var ext = '.' + process.argv[3]
+const folder = process.argv[2]
+const ext = '.' + process.argv[3]
 
 fs.readdir(folder, function (err, files) {
   if (err) return console.error(err)
@@ -76,3 +76,45 @@ fs.readdir(folder, function (err, files) {
 */
 
 // Step 6
+/*
+module.js
+main.js
+*/
+
+// 7 HTTP CLIENT
+
+const http = require('http');
+http.get(process.argv[2], res => {
+  // not setDefaultEncoding
+  // https://blog.ernest.me/post/python-setdefaultencoding-unicode-bytes
+  res.setEncoding('utf8')
+  res.on('data', console.log)
+  res.on('error', console.error)
+})
+/*
+// official solution
+var http = require('http')
+
+http.get(process.argv[2], function (response) {
+  response.setEncoding('utf8')
+  response.on('data', console.log)
+  response.on('error', console.error)
+}).on('error', console.error)
+
+*/
+
+// Step 8
+// I cannot find bl package
+/*
+var http = require('http')
+var bl = require('bl')
+
+http.get(process.argv[2], function (response) {
+  response.pipe(bl(function (err, data) {
+    if (err) return console.error(err)
+    data = data.toString()
+    console.log(data.length)
+    console.log(data)
+  }))
+})
+*/
