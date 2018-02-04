@@ -113,7 +113,7 @@ http.get(process.argv[2], (res) => {
 
 
 ```js
-// JUGGLING ASYNC
+// 9 JUGGLING ASYNC
 const http = require('http')
 const bl = require('bl')
 const results = []
@@ -127,9 +127,7 @@ var httpGet = i => {
       results[i] = data.toString()
       count++
 
-      if (count === 3) results.map(result => {
-        console.log(result)
-      })
+      if (count === 3) results.map(result => console.log(result))
     }))
   })
 }
@@ -171,3 +169,113 @@ for (var i = 0; i < 3; i++) {
   httpGet(i)
 }
 ```
+
+```js
+// 10  TIME SERVER 
+const net = require('net')
+
+const complementZero = num => {
+  return num < 10 ? '0' + num : num
+}
+
+const time = new Date();
+const mnth = complementZero(time.getMonth() + 1)
+const date = complementZero(time.getDate())
+const hors = complementZero(time.getHours())
+const mins = complementZero(time.getMinutes())
+
+const putTogether = time.getFullYear() + `-${mnth}-${date} ${hors}:${mins}`
+
+
+net.createServer(socket => {
+  socket.write(putTogether)
+  socket.end('\n')
+}).on('error', err => console.warn(err)).listen(process.argv[2])
+
+// official solution
+var net = require('net')
+function zeroFill (i) {
+  return (i < 10 ? '0' : '') + i
+}
+
+function now () {
+  var d = new Date()
+  return d.getFullYear() + '-' +
+    zeroFill(d.getMonth() + 1) + '-' +
+    zeroFill(d.getDate()) + ' ' +
+    zeroFill(d.getHours()) + ':' +
+    zeroFill(d.getMinutes())
+}
+
+var server = net.createServer(function (socket) {
+  socket.end(now() + '\n')
+})
+
+server.listen(Number(process.argv[2]))
+```
+
+```js
+// 11  HTTP FILE SERVER
+const http = require('http')
+const fs = require('fs')
+
+http.createServer((req, res) => {
+  fs.createReadStream(process.argv[3]).pipe(res)
+}).listen(process.argv[2])
+// official solution
+var http = require('http')
+var fs = require('fs')
+
+var server = http.createServer(function (req, res) {
+  res.writeHead(200, { 'content-type': 'text/plain' })
+
+  fs.createReadStream(process.argv[3]).pipe(res)
+})
+
+server.listen(Number(process.argv[2]))
+```
+
+```js
+// 12 HTTP UPPERCASERER
+const map = require('through2-map')
+const http = require('http')
+http.createServer((req, res) => {
+  return req.pipe(map(data => data.toString().toUpperCase())).pipe(res)
+}).listen(process.argv[2])
+
+// other's solution
+// https://gist.github.com/nobitagit/bd4c0aa185926056873af47fa266650d
+const http = require('http');
+const map = require('through2-map');
+
+const PORT = process.argv[2];
+
+const uppercase = map(str => str.toString().toUpperCase());
+
+const server = http.createServer((req, res) => {
+  if (req.method === 'POST') {
+    req.pipe(uppercase).pipe(res);
+  }  else {
+    res.end();
+  }
+
+});
+
+server.listen(PORT);
+
+
+// official solution
+var http = require('http')
+var map = require('through2-map')
+
+var server = http.createServer(function (req, res) {
+  if (req.method !== 'POST') {
+    return res.end('send me a POST\n')
+  }
+
+  req.pipe(map(function (chunk) {
+    return chunk.toString().toUpperCase()
+  })).pipe(res)
+})
+
+server.listen(Number(process.argv[2]))
