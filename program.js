@@ -1,15 +1,24 @@
+const http = require('http')
+const bl = require('bl')
+const results = []
+let count = 0;
+let countURL = 0;
+var httpGet = i => {
+  http.get(process.argv[2 + i], res => {
+    res.pipe(bl((err, data) => {
+      if (err) console.log(err)
 
-var http = require('http')
-var bl = require('bl')
+      results[i] = data.toString()
+      count++
 
-http.get(process.argv[2], function (response) {
-  response.pipe(bl(function (err, data) {
-    if (err) return console.error(err)
-    data = data.toString()
-    console.log(data.length)
-    console.log(data)
-  }))
-})
+      if (count === 3) results.map(result => {
+        console.log(result)
+      })
+    }))
+  })
+}
 
-
-
+while (countURL < 3) {
+  httpGet(countURL)
+  countURL++
+}
