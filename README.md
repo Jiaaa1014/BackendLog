@@ -12,18 +12,15 @@ console.log(sum(process.argv))
 
 ```js
 // 3 MY FIRST I/O
+// utf8 is optional
 const fs = require('fs')
-const filePath = process.argv[2]
-const buf = fs.readFileSync(filePath)
-const arr = buf.toString().split('\n')
-console.log(arr.length - 1)
+console.log(fs.readFileSync(process.argv[2], 'utf8').toString().split('\n').length - 1)
+
 // official solution
 const fs = require('fs')
 const contents = fs.readFileSync(process.argv[2])
 const lines = contents.toString().split('\n').length - 1
 console.log(lines)
-// or
-fs.readFileSync(process.argv[2], 'utf8').split('\n').length - 1
 ```
 
 ```js
@@ -32,8 +29,8 @@ const fs = require('fs')
 fs.readFile(process.argv[2], 'utf-8', function callback(err, data) {
   if (err) return err
   console.log(data.toString().split('\n').length - 1)
-
 });
+
 // official solution
 const fs = require('fs')
 const file = process.argv[2]
@@ -55,6 +52,7 @@ fs.readdir(process.argv[2], (err, list) => {
     if (path.extname(file) === '.' + process.argv[3]) console.log(file)
   })
 })
+
 // official solution
 const fs = require('fs')
 const path = require('path')
@@ -72,10 +70,12 @@ fs.readdir(folder, function (err, files) {
 })
 ```
 
-```js
+```
 // 6 MAKE IT MODULAR 
-module.js
-main.js
+learnyounode challenge6
+ |
+ --module.js
+ --main.js
 ```
 
 ```js
@@ -111,7 +111,6 @@ http.get(process.argv[2], (res) => {
 })
 ```
 
-
 ```js
 // 9 JUGGLING ASYNC
 const http = require('http')
@@ -125,7 +124,7 @@ var httpGet = i => {
       if (err) console.log(err)
 
       results[i] = data.toString()
-      count++
+      count ++
 
       if (count === 3) results.map(result => console.log(result))
     }))
@@ -134,8 +133,9 @@ var httpGet = i => {
 
 while (countURL < 3) {
   httpGet(countURL)
-  countURL++
+  countURL ++
 }
+
 // official solution
 var http = require('http')
 var bl = require('bl')
@@ -222,6 +222,7 @@ const fs = require('fs')
 http.createServer((req, res) => {
   fs.createReadStream(process.argv[3]).pipe(res)
 }).listen(process.argv[2])
+
 // official solution
 var http = require('http')
 var fs = require('fs')
