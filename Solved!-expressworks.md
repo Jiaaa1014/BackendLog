@@ -73,7 +73,6 @@ app.put('/message/:id', (req, res) => {
 
 ```
 
-
 ```js
 // 7 WHAT'S IN QUERY
 const express = require('express')
@@ -97,6 +96,7 @@ app.get('/books', (req, res) => {
     res.json(JSON.parse(data))
   })
 }).listen(process.argv[2])
+
 // official solution
 var express = require('express')
 var app = express()
