@@ -40,6 +40,69 @@ $ mongod --version
 ### 3 FIND
 執行code得到`db.collection is not a function`
 `bash
-$npm uninstall mongodb  
+$ npm uninstall mongodb  
 $ npm install mongodb@2.2.33
 `
+```js
+const mongo = require('mongodb').MongoClient
+const age = process.argv[2]
+
+const url = 'mongodb://localhost:27017/learnyoumongo'
+
+mongo.connect(url, (err, db) => {
+  if (err) console.log(err)
+  db.collection('parrots')
+  .find({
+    age: {
+      $gt: +age // + operator is used to turn it into num
+    }
+  }).toArray((err, docs) => {
+    if (err) console.log(err)
+    console.log(docs)
+    db.close()
+  })
+})
+```
+
+### 4 FIND PROJECT
+```js
+const mongo = require('mongodb').MongoClient
+const age = process.argv[2]
+
+const url = 'mongodb://localhost:27017/learnyoumongo'
+
+mongo.connect(url, (err, db) => {
+  if (err) console.log(err)
+  db.collection('parrots')
+  .find({
+    age: {
+      $gt: + age // + operator is used to turn it into num
+    }
+  }, { // "0" means no need
+      name: 1,
+      age: 1,
+      _id: 0
+    }).toArray((err, docs) => {
+      if (err) console.log(err)
+      console.log(docs)
+      db.close()
+    })
+})
+```
+### 5 INSERT
+```js
+const mongo = require('mongodb').MongoClient
+const age = process.argv[2]
+
+const url = 'mongodb://localhost:27017/learnyoumongo'
+const insertObj = { firstName: process.argv[2], lastName: process.argv[3] }
+mongo.connect(url, (err, db) => {
+  if (err) console.log(err)
+  db.collection('docs')
+  .insert(insertObj, (err, data) => {
+      if (err) console.log(err)
+      console.log(JSON.stringify(insertObj))
+      db.close()
+  })
+})
+```
