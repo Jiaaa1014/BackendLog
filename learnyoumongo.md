@@ -109,7 +109,6 @@ mongo.connect(url, (err, db) => {
 ### 6 UPDATE
 ```js
 const mongo = require('mongodb').MongoClient
-
 const url = `mongodb://localhost:27017/${process.argv[2]}`
 
 mongo.connect(url, (err, db) => {
@@ -132,7 +131,6 @@ mongo.connect(url, (err, db) => {
 ### 7 REMOVE
 ```js
 const mongo = require('mongodb').MongoClient
-
 const url = `mongodb://localhost:27017/${process.argv[2]}`
 
 mongo.connect(url, (err, db) => {
@@ -143,5 +141,46 @@ mongo.connect(url, (err, db) => {
       if(err) throw err;
       db.close()
   })
+})
+```
+### 8 COUNT
+```js
+const mongo = require('mongodb').MongoClient
+const url = `mongodb://localhost:27017/learnyoumongo`
+
+mongo.connect(url, (err, db) => {
+  if (err) console.log(err)
+  db.collection('parrots').count({
+      age: {
+          $gt: +process.argv[2]
+      }
+  }, (err, data) => {
+      if(err) throw err;
+      console.log(data)
+      db.close()
+  })
+})
+```
+
+### 9 AGGREGATE
+```js
+const mongo = require('mongodb').MongoClient
+const url = `mongodb://localhost:27017/learnyoumongo`
+
+mongo.connect(url, (err, db) => {
+  if (err) console.log(err)
+  db.collection('prices').aggregate([
+      { $match: { size: process.argv[2] }},
+      { $group: {
+        _id: 'average', 
+       average: {
+          $avg: '$price'
+        }
+      }}
+    ]).toArray((err, data) => {
+      if(err) throw err
+      console.log(Number(data[0].average).toFixed(2))
+    })
+    db.close()
 })
 ```
