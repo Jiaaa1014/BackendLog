@@ -12,7 +12,7 @@ app.get('/home', (req, res) => {
 放靜態檔案的資料夾位子，argv[3]沒有則設定路徑為"./public"
 沒有第一項參數，則檔案路徑為"localhost:5050/xxx.jpg"
 
-若為app.use('/images',express.static(...))，則路徑為"localhost:5050/images/xxx.jpg"，但在本機的xxx.jpg不一定在images資料夾中，但是在express.static定義的資料夾中。
+若為`app.use('/images',express.static(...))`，則路徑為`localhost:5050/images/xxx.jpg`，本機的`xxx.jpg`不一定在images資料夾中，是在`express.static()`定義的資料夾中。
 
 > 參考：[here](https://ithelp.ithome.com.tw/articles/10186000)
 ```js
