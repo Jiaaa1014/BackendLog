@@ -1,9 +1,7 @@
 #### 1 MONGOD
 * 進階/環境變數
 
-* /系統變數/Path/編輯/
-
-* 新增`C:\Program Files\MongoDB\Server\3.6\bin`當作Path之一
+* /系統變數/Path/編輯/新增`C:\Program Files\MongoDB\Server\3.6\bin`當作Path之一
 
 <!-- 關卡沒有要求以下步驟， -->
 參考：[here](https://ithelp.ithome.com.tw/articles/10186324)
@@ -114,8 +112,7 @@ const url = `mongodb://localhost:27017/${process.argv[2]}`
 mongo.connect(url, (err, db) => {
   if (err) console.log(err)
   db.collection('users').update({ 
-      username: "tinatime" 
-      
+      username: "tinatime"       
   }, {
       $set: {
           age: 40
@@ -183,4 +180,35 @@ mongo.connect(url, (err, db) => {
     })
     db.close()
 })
+
+// official solution
+var mongo = require('mongodb').MongoClient
+var size = process.argv[2]
+
+var url = 'mongodb://localhost:27017/learnyoumongo'
+
+mongo.connect(url, function(err, db) {
+  if (err) throw err
+  var prices = db.collection('prices')
+  prices.aggregate([
+    { $match: {
+      size: size
+    }}
+  , { $group: {
+      _id: 'average'
+    , average: {
+        $avg: '$price'
+      }
+    }}
+  ]).toArray(function(err, results) {
+    if (err) throw err
+    if (!results.length) {
+      throw new Error('No results found')
+    }
+    var o = results[0]
+    console.log(Number(o.average).toFixed(2))
+    db.close()
+  })
+})
+
 ```
