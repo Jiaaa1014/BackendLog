@@ -14,6 +14,7 @@ const express = require('express')
 const path = require("path")
 const app = express()
 // resolve() or join()
+// 放靜態檔案的資料夾位子，argv[3]沒有則設定路徑為"./public"
 app.use(express.static(process.argv[3] || path.resolve(__dirname, 'public')))
   .listen(process.argv[2])
 ```
